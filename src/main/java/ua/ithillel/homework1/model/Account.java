@@ -1,4 +1,4 @@
-package ua.ithillel.homework1;
+package ua.ithillel.homework1.model;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

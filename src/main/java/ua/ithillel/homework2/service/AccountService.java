@@ -3,28 +3,29 @@ package ua.ithillel.homework2.service;
 import ua.ithillel.homework1.model.Account;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface AccountService {
-    List<Account> balanceMoreThen(List<Account> accounts);
+    List<Account> balanceMoreThen(List<Account> accounts, Double moreThen);
 
     Set<String> accountsCountries(List<Account> accounts);
 
-    boolean youngerThen(List<Account> accounts);
+    boolean youngerThen(List<Account> accounts, int youngerThenYear);
 
-    int sumOfMaleBalances(List<Account> accounts);
+    Double sumOfMaleBalances(List<Account> accounts);
 
-    List<Account> groupByMonthOfBirth(List<Account> accounts);
+    Map<String, List<Account>> groupByMonthOfBirth(List<Account> accounts);
 
-    int averageBalanceDependOfCountry(List<Account> accounts, String country);
+    Double averageBalanceDependOfCountry(List<Account> accounts, String country);
 
-    String nameAndLastnameOfEmployees(List<Account> accounts);
+    String nameAndLastnameOfEmployees(List<List<Account>> accountsList);
 
     List<Account> sortByLastnameAndName(List<Account> accounts);
 
-    Account OldestAccount(List<Account> accounts);
+    Account oldestAccount(List<Account> accounts);
 
-    //one more
+    Map<Integer, Double> groupByBirthYearAndAverageBalance(List<Account> accounts);
 
     Account longestLastname(List<Account> accounts);
 

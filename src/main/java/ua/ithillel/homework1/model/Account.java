@@ -1,17 +1,17 @@
-package ua.ithillel.homework1;
+package ua.ithillel.homework1.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Account {
     private String firstName;
     private String lastName;
     private String country;
-    private LocalDateTime birthday;
+    private LocalDate birthday;
     private Double balance;
     private String gender;
 
-    public Account(String firstName, String lastName, String country, LocalDateTime birthday, Double balance, String gender) {
+    public Account(String firstName, String lastName, String country, LocalDate birthday, Double balance, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -44,11 +44,11 @@ public class Account {
         this.country = country;
     }
 
-    public LocalDateTime getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

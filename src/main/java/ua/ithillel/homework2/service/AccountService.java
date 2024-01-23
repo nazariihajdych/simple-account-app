@@ -17,7 +17,7 @@ public interface AccountService {
 
     Map<String, List<Account>> groupByMonthOfBirth(List<Account> accounts);
 
-    Double averageBalanceDependOfCountry(List<Account> accounts, String country);
+    Double averageBalanceByCountry(List<Account> accounts, String country);
 
     String nameAndLastnameOfEmployees(List<List<Account>> accountsList);
 

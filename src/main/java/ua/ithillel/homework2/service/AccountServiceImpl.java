@@ -2,10 +2,14 @@ package ua.ithillel.homework2.service;
 
 import ua.ithillel.homework1.model.Account;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AccountServiceDefault implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> balanceMoreThen(List<Account> accounts, Double moreThen) {
@@ -42,7 +46,7 @@ public class AccountServiceDefault implements AccountService {
     }
 
     @Override
-    public Double averageBalanceDependOfCountry(List<Account> accounts, String country) {
+    public Double averageBalanceByCountry(List<Account> accounts, String country) {
         return accounts.stream()
                 .filter(account -> account.getCountry().equalsIgnoreCase(country))
                 .collect(Collectors.averagingDouble(Account::getBalance));

@@ -2,7 +2,7 @@ package ua.ithillel;
 
 import ua.ithillel.homework1.model.Account;
 import ua.ithillel.homework2.service.AccountService;
-import ua.ithillel.homework2.service.AccountServiceDefault;
+import ua.ithillel.homework2.service.AccountServiceImpl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +24,7 @@ public class App {
 
         List<Account> accounts = List.of(jackAccount, saraAccount, vasilAccount, maxymAccount, annaAccount, laurentiaAccount, ilariaAccount, johnAccount);
 
-        AccountService accountService = new AccountServiceDefault();
+        AccountService accountService = new AccountServiceImpl();
 
         Double balanceMoreThen = 12000.0;
         System.out.printf("Account balance more than %.2f:%n", balanceMoreThen);
@@ -51,7 +51,7 @@ public class App {
         groupedByMonthOfBirth.forEach((key, value) -> System.out.println(key + " = " + value));
 
         String country = "USA";
-        Double averageByCountry = accountService.averageBalanceDependOfCountry(accounts, country);
+        Double averageByCountry = accountService.averageBalanceByCountry(accounts, country);
         System.out.println();
         System.out.printf("Average balance by country: %s  - %.2f%n", country, averageByCountry);
 

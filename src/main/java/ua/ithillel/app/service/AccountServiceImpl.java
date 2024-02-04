@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.ithillel.app.model.Account;
 import ua.ithillel.app.repo.InMemoryRepo;
-import ua.ithillel.app.service.AccountService;
 
 import java.util.Comparator;
 import java.util.Collection;
@@ -20,8 +19,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account addAccount(Account account) {
         account.setId(inMemoryRepo.getAllAccounts().size() + 1);
-        inMemoryRepo.addAccount(account);
-        return account;
+        return inMemoryRepo.addAccount(account);
     }
 
     @Override

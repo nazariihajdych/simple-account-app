@@ -10,7 +10,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 
         context.scan("ua.ithillel.app");

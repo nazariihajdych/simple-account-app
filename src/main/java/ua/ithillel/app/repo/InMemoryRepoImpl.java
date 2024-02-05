@@ -1,16 +1,19 @@
 package ua.ithillel.app.repo;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ua.ithillel.app.exeption.AccountNotFoundException;
 import ua.ithillel.app.model.Account;
 
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
-public class InMemoryRepoImpl implements ua.ithillel.app.repo.InMemoryRepo {
+public class InMemoryRepoImpl implements InMemoryRepo {
 
     private final List<Account> accounts;
+
+    public InMemoryRepoImpl(List<Account> accounts) {
+        this.accounts = accounts;
+    }
     @Override
     public Account addAccount(Account account) {
         accounts.add(account);
@@ -27,6 +30,6 @@ public class InMemoryRepoImpl implements ua.ithillel.app.repo.InMemoryRepo {
         return accounts.stream()
                 .filter(account -> account.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + id + " not found"));
     }
 }

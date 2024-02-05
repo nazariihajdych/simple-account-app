@@ -14,21 +14,13 @@ public interface AccountService {
 
     Set<String> accountsCountries();
 
-    //boolean youngerThen(List<Account> accounts, int youngerThenYear);
-
     Double sumOfMaleBalances(List<Account> accounts);
-
-    //Map<String, List<Account>> groupByMonthOfBirth(List<Account> accounts);
 
     Double averageBalanceByCountry (String country);
 
     String nameAndLastnameOfEmployees(List<List<Account>> accountsList);
 
     List<Account> sortByLastnameAndName(List<Account> accounts);
-
-   // Account oldestAccount(List<Account> accounts);
-
-   // Map<Integer, Double> groupByBirthYearAndAverageBalance(List<Account> accounts);
 
     Account longestLastname(List<Account> accounts);
 

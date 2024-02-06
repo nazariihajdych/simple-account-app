@@ -1,34 +1,53 @@
-package ua.ithillel.homework2.service;
+package ua.ithillel.app.service;
 
-import ua.ithillel.homework1.model.Account;
+import org.springframework.stereotype.Service;
+import ua.ithillel.app.exeption.AccountNotFoundException;
+import ua.ithillel.app.model.Account;
+import ua.ithillel.app.repo.InMemoryRepo;
 
 import java.util.Comparator;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 public class AccountServiceImpl implements AccountService {
 
+    private final InMemoryRepo inMemoryRepo;
+
+    public AccountServiceImpl(InMemoryRepo inMemoryRepo) {
+        this.inMemoryRepo = inMemoryRepo;
+    }
+
     @Override
-    public List<Account> balanceMoreThen(List<Account> accounts, Double moreThen) {
-        return accounts.stream()
+    public Account addAccount(Account account) {
+        account.setId(inMemoryRepo.getAllAccounts().size() + 1);
+        return inMemoryRepo.addAccount(account);
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        return inMemoryRepo.getAllAccounts();
+    }
+
+    @Override
+    public Account getAccountById(Integer id) {
+        return inMemoryRepo.getAccountById(id);
+    }
+
+    @Override
+    public List<Account> balanceMoreThen(Double moreThen) {
+        return inMemoryRepo.getAllAccounts().stream()
                 .filter(account -> account.getBalance() > moreThen)
                 .toList();
     }
 
     @Override
-    public Set<String> accountsCountries(List<Account> accounts) {
-        return accounts.stream()
+    public Set<String> accountsCountries() {
+        return inMemoryRepo.getAllAccounts().stream()
                 .map(Account::getCountry)
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public boolean youngerThen(List<Account> accounts, int youngerThenYear) {
-        return accounts.stream()
-                .anyMatch(account -> account.getBirthday().getYear() > youngerThenYear);
     }
 
     @Override
@@ -40,14 +59,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Map<String, List<Account>> groupByMonthOfBirth(List<Account> accounts) {
-        return accounts.stream()
-                .collect(Collectors.groupingBy(account -> account.getBirthday().getMonth().toString()));
-    }
-
-    @Override
-    public Double averageBalanceByCountry(List<Account> accounts, String country) {
-        return accounts.stream()
+    public Double averageBalanceByCountry(String country) {
+        return inMemoryRepo.getAllAccounts().stream()
                 .filter(account -> account.getCountry().equalsIgnoreCase(country))
                 .collect(Collectors.averagingDouble(Account::getBalance));
     }
@@ -68,23 +81,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account oldestAccount(List<Account> accounts) {
-        return accounts.stream()
-                .min(Comparator.comparing(Account::getBirthday))
-                .orElse(null);
-    }
-
-    @Override
-    public Map<Integer, Double> groupByBirthYearAndAverageBalance(List<Account> accounts) {
-        return accounts.stream()
-                .collect(Collectors.groupingBy(account -> account.getBirthday().getYear(),
-                        Collectors.averagingDouble(Account::getBalance)));
-    }
-
-    @Override
     public Account longestLastname(List<Account> accounts) {
         return accounts.stream()
                 .max(Comparator.comparingInt(account -> account.getLastName().length()))
-                .orElse(null);
+                .orElseThrow(() -> new AccountNotFoundException("There isn't account with longest Lastname"));
     }
 }

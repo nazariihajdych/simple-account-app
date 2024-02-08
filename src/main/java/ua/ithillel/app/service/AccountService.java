@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 public interface AccountService {
+    //CRUD
     Account addAccount(Account account);
     List<Account> getAllAccounts();
-    Account getAccountById(Integer id);
+    Account getAccountById(Long id);
+    Account deleteAccount(Long id);
+    Account editAccount(Long id, Account account);
 
+    //Others
     List<Account> balanceMoreThen(Double moreThen);
 
     Set<String> accountsCountries();

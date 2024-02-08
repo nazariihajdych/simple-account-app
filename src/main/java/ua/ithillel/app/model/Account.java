@@ -1,17 +1,23 @@
 package ua.ithillel.app.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Account {
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String country;
     private Double balance;
     private String gender;
+
+    public Account(String firstName, String lastName, String country, Double balance, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.balance = balance;
+        this.gender = gender;
+    }
 }

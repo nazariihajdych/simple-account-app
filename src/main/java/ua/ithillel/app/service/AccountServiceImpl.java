@@ -22,7 +22,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account addAccount(Account account) {
-        account.setId(inMemoryRepo.getAllAccounts().size() + 1);
         return inMemoryRepo.addAccount(account);
     }
 
@@ -32,8 +31,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getAccountById(Integer id) {
+    public Account getAccountById(Long id) {
         return inMemoryRepo.getAccountById(id);
+    }
+
+    @Override
+    public Account deleteAccount(Long id) {
+        return inMemoryRepo.deleteAccount(id);
+    }
+
+    @Override
+    public Account editAccount(Long id, Account account) {
+        return inMemoryRepo.editAccount(id, account);
     }
 
     @Override

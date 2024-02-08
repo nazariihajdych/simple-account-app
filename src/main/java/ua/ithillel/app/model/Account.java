@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Account {
     private Integer id;
     private String firstName;
@@ -14,4 +13,12 @@ public class Account {
     private String country;
     private Double balance;
     private String gender;
+
+    public Account(String firstName, String lastName, String country, Double balance, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.balance = balance;
+        this.gender = gender;
+    }
 }

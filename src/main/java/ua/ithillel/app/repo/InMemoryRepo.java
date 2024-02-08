@@ -7,9 +7,9 @@ import java.util.List;
 public interface InMemoryRepo {
     Account addAccount(Account account);
     List<Account> getAllAccounts();
-    Account getAccountById(Integer id);
+    Account getAccountById(Long id);
 
-    Account deleteAccount(Integer id);
+    Account deleteAccount(Long id);
 
-    Account editAccount(Integer id, Account account);
+    Account editAccount(Long id, Account account);
 }

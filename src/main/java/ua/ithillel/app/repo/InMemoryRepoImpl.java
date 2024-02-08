@@ -11,14 +11,14 @@ import java.util.List;
 public class InMemoryRepoImpl implements InMemoryRepo {
 
     private final List<Account> accounts;
-    private static int  idSetter = 0;
+    private static long  idSequence = 0;
 
     public InMemoryRepoImpl() {
         this.accounts = new ArrayList<>();
     }
     @Override
     public Account addAccount(Account account) {
-        account.setId(++idSetter);
+        account.setId(++idSequence);
         accounts.add(account);
         return account;
     }
@@ -29,7 +29,7 @@ public class InMemoryRepoImpl implements InMemoryRepo {
     }
 
     @Override
-    public Account getAccountById(Integer id) {
+    public Account getAccountById(Long id) {
         return accounts.stream()
                 .filter(account -> account.getId().equals(id))
                 .findFirst()
@@ -37,14 +37,14 @@ public class InMemoryRepoImpl implements InMemoryRepo {
     }
 
     @Override
-    public Account deleteAccount(Integer id) {
+    public Account deleteAccount(Long id) {
         Account accountToDelete = getAccountById(id);
         accounts.remove(accountToDelete);
         return accountToDelete;
     }
 
     @Override
-    public Account editAccount(Integer id, Account account) {
+    public Account editAccount(Long id, Account account) {
         Account accountToEdit = getAccountById(id);
         accountToEdit.setFirstName(account.getFirstName());
         accountToEdit.setLastName(account.getLastName());

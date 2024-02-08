@@ -9,9 +9,9 @@ public interface AccountService {
     //CRUD
     Account addAccount(Account account);
     List<Account> getAllAccounts();
-    Account getAccountById(Integer id);
-    Account deleteAccount(Integer id);
-    Account editAccount(Integer id, Account account);
+    Account getAccountById(Long id);
+    Account deleteAccount(Long id);
+    Account editAccount(Long id, Account account);
 
     //Others
     List<Account> balanceMoreThen(Double moreThen);

@@ -31,17 +31,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getAccountById(Integer id) {
+    public Account getAccountById(Long id) {
         return inMemoryRepo.getAccountById(id);
     }
 
     @Override
-    public Account deleteAccount(Integer id) {
+    public Account deleteAccount(Long id) {
         return inMemoryRepo.deleteAccount(id);
     }
 
     @Override
-    public Account editAccount(Integer id, Account account) {
+    public Account editAccount(Long id, Account account) {
         return inMemoryRepo.editAccount(id, account);
     }
 

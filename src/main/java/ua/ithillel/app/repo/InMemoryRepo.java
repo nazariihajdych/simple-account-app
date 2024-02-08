@@ -8,4 +8,8 @@ public interface InMemoryRepo {
     Account addAccount(Account account);
     List<Account> getAllAccounts();
     Account getAccountById(Integer id);
+
+    Account deleteAccount(Integer id);
+
+    Account editAccount(Integer id, Account account);
 }

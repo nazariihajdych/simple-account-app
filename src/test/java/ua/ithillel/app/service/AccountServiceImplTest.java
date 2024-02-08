@@ -22,15 +22,16 @@ class AccountServiceImplTest {
     private List<Account> accountsWomen;
     @BeforeEach
     void setUp() {
-        Account jackAccount = new Account(1,"Jack", "Boldom", "Canada", 2000.0,"M");
-        Account saraAccount = new Account(2,"Sara", "Emmanek", "USA", 5000.0,"W");
-        Account laurentiaAccount = new Account(3,"Laurentia", "Vademach", "Canada", 3000.0,"W");
-        Account vasilAccount = new Account(4,"Vasil", "Horobyn", "Ukraine", 1300.0,"M");
+        Account jackAccount = new Account("Jack", "Boldom", "Canada", 2000.0,"M");
+        Account saraAccount = new Account("Sara", "Emmanek", "USA", 5000.0,"W");
+        Account laurentiaAccount = new Account("Laurentia", "Vademach", "Canada", 3000.0,"W");
+        Account vasilAccount = new Account("Vasil", "Horobyn", "Ukraine", 1300.0,"M");
 
         accounts = List.of(jackAccount, saraAccount, vasilAccount, laurentiaAccount);
         accountsWomen = List.of(saraAccount, laurentiaAccount);
-        inMemoryRepo = new InMemoryRepoImpl(accounts);
+        inMemoryRepo = new InMemoryRepoImpl();
         accountService = new AccountServiceImpl(inMemoryRepo);
+        accounts.forEach(account -> accountService.addAccount(account));
     }
 
     @Test

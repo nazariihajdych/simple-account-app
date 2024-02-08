@@ -32,7 +32,18 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Account> addAccount(@RequestBody Account account) {
-        return ResponseEntity.ok(accountService.addAccount(account));
+        return new ResponseEntity<>(accountService.addAccount(account), HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Account> editAccount(@PathVariable Integer id,
+                                               @RequestBody Account account) {
+        return ResponseEntity.ok(accountService.editAccount(id, account));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Account> deleteAccount(@PathVariable Integer id) {
+        return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
     @GetMapping("/balance/{moreThen}")

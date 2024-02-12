@@ -35,7 +35,7 @@ public class AccountController {
         return new ResponseEntity<>(accountService.addAccount(account), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Account> editAccount(@PathVariable Long id,
                                                @RequestBody Account account) {
         return ResponseEntity.ok(accountService.editAccount(id, account));

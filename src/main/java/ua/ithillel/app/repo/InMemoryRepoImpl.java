@@ -1,6 +1,8 @@
 package ua.ithillel.app.repo;
 
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ua.ithillel.app.exeption.AccountNotFoundException;
@@ -17,80 +19,82 @@ public class InMemoryRepoImpl implements InMemoryRepo {
     }
     @Override
     public Account addAccount(Account account) {
-        EntityManager entityManager = sessionFactory.createEntityManager();
+        Session session = sessionFactory.openSession();
         try {
-            entityManager.getTransaction().begin();
+            session.beginTransaction();
 
-            entityManager.persist(account);
+            session.persist(account);
 
-            entityManager.getTransaction().commit();
+            session.getTransaction().commit();
         }catch (Exception e){
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
         }finally {
-            entityManager.close();
+            session.close();
         }
         return account;
     }
 
     @Override
     public List<Account> getAllAccounts() {
-        EntityManager entityManager = sessionFactory.createEntityManager();
-        String queryString = "SELECT a FROM account a";
-        List<Account> resultList = entityManager.createQuery(queryString, Account.class).getResultList();
-        entityManager.close();
-        return resultList;
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+        criteria.from(Account.class);
+        List<Account> accounts = session.createQuery(criteria).getResultList();
+        session.close();
+        return accounts;
 
     }
 
     @Override
     public Account getAccountById(Long id) {
-        EntityManager entityManager = sessionFactory.createEntityManager();
-        Account account = entityManager.find(Account.class, id);
-        entityManager.close();
+        Session session = sessionFactory.openSession();
+        Account account = session.get(Account.class, id);
+        session.close();
         return account;
     }
 
     @Override
     public Account deleteAccount(Long id) {
-        EntityManager entityManager = sessionFactory.createEntityManager();
+        Session session = sessionFactory.openSession();
         try {
-            entityManager.getTransaction().begin();
+            session.beginTransaction();
 
-            Account accountToDelete = entityManager.find(Account.class, id);
-            entityManager.remove(accountToDelete);
+            Account accountToDelete = session.get(Account.class, id);
+            session.remove(accountToDelete);
 
-            entityManager.getTransaction().commit();
+            session.getTransaction().commit();
 
             return accountToDelete;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
             throw new AccountNotFoundException("Account with id = " + id + " not found");
         } finally {
-            entityManager.close();
+            session.close();
         }
     }
 
     @Override
     public Account editAccount(Long id, Account account) {
-        EntityManager entityManager = sessionFactory.createEntityManager();
+        Session session = sessionFactory.openSession();
         try {
-            entityManager.getTransaction().begin();
+            session.beginTransaction();
 
-            Account accountToUpdate = entityManager.find(Account.class, id);
+            Account accountToUpdate = session.get(Account.class, id);
             accountToUpdate.setFirstName(account.getFirstName());
             accountToUpdate.setLastName(account.getLastName());
             accountToUpdate.setBalance(account.getBalance());
             accountToUpdate.setCountry(account.getCountry());
             accountToUpdate.setGender(account.getGender());
 
-            entityManager.getTransaction().commit();
+            session.getTransaction().commit();
 
             return accountToUpdate;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
             throw new AccountNotFoundException("Account with id = " + id + " not found");
         } finally {
-            entityManager.close();
+            session.close();
         }
     }
 }

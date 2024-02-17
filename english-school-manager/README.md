@@ -23,4 +23,4 @@ The "English School Manager" is a web-based application designed to facilitate r
     - Protection of user data and compliance with privacy regulations.
 ---
 PostgreSQL Schema
-![PostgreSQL Schema](/Users/nazar/IdeaProjects/hillel-javaee-homeworks/docs/PostgreSQL schema.png)
+![](https://github.com/nazariihajdych/hillel-javaee-homeworks/blob/main/docs/PostgreSQL%20schema.png)

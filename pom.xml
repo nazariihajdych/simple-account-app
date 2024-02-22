@@ -9,6 +9,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>english-school-manager</module>
+        <module>account-app-common</module>
+        <module>account-app-data</module>
+        <module>account-app-service</module>
+        <module>account-app-web</module>
+        <module>annotation-beanpp_hw</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
 
@@ -23,6 +28,7 @@
         <jackson.version>2.16.1</jackson.version>
         <postgresql.version>42.7.1</postgresql.version>
         <hibernate.version>6.2.8.Final</hibernate.version>
+        <liquibase.version>4.26.0</liquibase.version>
     </properties>
 
     <dependencyManagement>
@@ -80,17 +86,24 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
             </plugin>
-        </plugins>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

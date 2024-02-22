@@ -3,6 +3,7 @@ package ua.ithillel.app.service;
 import org.springframework.stereotype.Service;
 import ua.ithillel.app.exeption.AccountNotFoundException;
 import ua.ithillel.app.model.Account;
+import ua.ithillel.app.model.enums.Gender;
 import ua.ithillel.app.repo.InMemoryRepo;
 
 import java.util.Comparator;
@@ -62,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Double sumOfMaleBalances(List<Account> accounts) {
         return accounts.stream()
-                .filter(account -> account.getGender().equals("M"))
+                .filter(account -> account.getGender().equals(Gender.MALE))
                 .mapToDouble(Account::getBalance)
                 .sum();
     }

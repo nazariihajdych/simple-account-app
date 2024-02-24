@@ -1,0 +1,11 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="db/changelog/changeSet/001-create-account-table.xml"/>
+    <include file="db/changelog/changeSet/002-create-role-table.xml"/>
+    <include file="db/changelog/changeSet/003-create-user-table.xml"/>
+    <include file="db/changelog/changeSet/004-create-payment-table-relation-to-account.xml"/>
+    <include file="db/changelog/changeSet/005-create-table-user-role.xml"/>
+</databaseChangeLog>

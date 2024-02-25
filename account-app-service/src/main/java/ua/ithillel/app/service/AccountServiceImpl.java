@@ -2,98 +2,63 @@ package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
 import ua.ithillel.app.exeption.AccountNotFoundException;
+import ua.ithillel.app.exeption.UserNotFoundException;
 import ua.ithillel.app.model.Account;
+import ua.ithillel.app.model.User;
+import ua.ithillel.app.model.dto.AccountDTO;
 import ua.ithillel.app.model.enums.Gender;
-import ua.ithillel.app.repo.InMemoryRepo;
+import ua.ithillel.app.model.mapper.AccountMapper;
+import ua.ithillel.app.repo.AccountRepo;
+import ua.ithillel.app.repo.UserRepo;
 
-import java.util.Comparator;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    private final InMemoryRepo inMemoryRepo;
+    private final AccountRepo accountRepo;
+    private final AccountMapper accountMapper;
+    private final UserRepo userRepo;
 
-    public AccountServiceImpl(InMemoryRepo inMemoryRepo) {
-        this.inMemoryRepo = inMemoryRepo;
+    public AccountServiceImpl(AccountRepo accountRepo, AccountMapper accountMapper, UserRepo userRepo) {
+        this.accountRepo = accountRepo;
+        this.accountMapper = accountMapper;
+        this.userRepo = userRepo;
     }
 
     @Override
-    public Account addAccount(Account account) {
-        return inMemoryRepo.addAccount(account);
+    public AccountDTO addAccount(AccountDTO accountDTO) {
+        Account account = accountMapper.accountDTOToAccount(accountDTO);
+        User user = userRepo.findById(accountDTO.getUser_id())
+                .orElseThrow(() -> new UserNotFoundException("User with id = " + accountDTO.getUser_id() + "not found"));
+        account.setUser(user);
+        Account added = accountRepo.addAccount(account);
+        return accountMapper.accountToAccountDTO(added);
     }
 
     @Override
-    public List<Account> getAllAccounts() {
-        return inMemoryRepo.getAllAccounts();
-    }
-
-    @Override
-    public Account getAccountById(Long id) {
-        return inMemoryRepo.getAccountById(id);
-    }
-
-    @Override
-    public Account deleteAccount(Long id) {
-        return inMemoryRepo.deleteAccount(id);
-    }
-
-    @Override
-    public Account editAccount(Long id, Account account) {
-        return inMemoryRepo.editAccount(id, account);
-    }
-
-    @Override
-    public List<Account> balanceMoreThen(Double moreThen) {
-        return inMemoryRepo.getAllAccounts().stream()
-                .filter(account -> account.getBalance() > moreThen)
+    public List<AccountDTO> getAllAccountsByUserId(Long id) {
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with id = " + id + "not found"));
+        return user.getAccounts().stream()
+                .map(accountMapper::accountToAccountDTO)
                 .toList();
     }
-
     @Override
-    public Set<String> accountsCountries() {
-        return inMemoryRepo.getAllAccounts().stream()
-                .map(Account::getCountry)
-                .collect(Collectors.toSet());
+    public AccountDTO getAccountById(Long id) {
+        return accountMapper.accountToAccountDTO(accountRepo.getAccountById(id));
     }
 
     @Override
-    public Double sumOfMaleBalances(List<Account> accounts) {
-        return accounts.stream()
-                .filter(account -> account.getGender().equals(Gender.MALE))
-                .mapToDouble(Account::getBalance)
-                .sum();
+    public AccountDTO deleteAccount(Long id) {
+        return accountMapper.accountToAccountDTO(accountRepo.deleteAccount(id));
     }
 
     @Override
-    public Double averageBalanceByCountry(String country) {
-        return inMemoryRepo.getAllAccounts().stream()
-                .filter(account -> account.getCountry().equalsIgnoreCase(country))
-                .collect(Collectors.averagingDouble(Account::getBalance));
-    }
-
-    @Override
-    public String nameAndLastnameOfEmployees(List<List<Account>> accountsList) {
-        return accountsList.stream()
-                .flatMap(Collection::stream)
-                .map(account -> account.getFirstName() + " " + account.getLastName())
-                .collect(Collectors.joining(", "));
-    }
-
-    @Override
-    public List<Account> sortByLastnameAndName(List<Account> accounts) {
-        return accounts.stream()
-                .sorted(Comparator.comparing(Account::getLastName).thenComparing(Account::getFirstName))
-                .toList();
-    }
-
-    @Override
-    public Account longestLastname(List<Account> accounts) {
-        return accounts.stream()
-                .max(Comparator.comparingInt(account -> account.getLastName().length()))
-                .orElseThrow(() -> new AccountNotFoundException("There isn't account with longest Lastname"));
+    public AccountDTO editAccount(Long id, AccountDTO accountDTO) {
+        Account account = accountMapper.accountDTOToAccount(accountDTO);
+        Account editedAccount = accountRepo.editAccount(id, account);
+        return accountMapper.accountToAccountDTO(editedAccount);
     }
 }

@@ -4,7 +4,7 @@ import ua.ithillel.app.model.Account;
 
 import java.util.List;
 
-public interface InMemoryRepo {
+public interface AccountRepo {
     Account addAccount(Account account);
     List<Account> getAllAccounts();
     Account getAccountById(Long id);

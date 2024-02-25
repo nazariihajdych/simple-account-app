@@ -11,10 +11,10 @@ import ua.ithillel.app.model.Account;
 import java.util.List;
 
 @Repository
-public class InMemoryRepoImpl implements InMemoryRepo {
+public class AccountRepoImpl implements AccountRepo {
     private final SessionFactory sessionFactory;
 
-    public InMemoryRepoImpl(SessionFactory sessionFactory) {
+    public AccountRepoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
     @Override
@@ -83,9 +83,12 @@ public class InMemoryRepoImpl implements InMemoryRepo {
             Account accountToUpdate = session.get(Account.class, id);
             accountToUpdate.setFirstName(account.getFirstName());
             accountToUpdate.setLastName(account.getLastName());
+            accountToUpdate.setDateOfBirth(account.getDateOfBirth());
             accountToUpdate.setBalance(account.getBalance());
             accountToUpdate.setCountry(account.getCountry());
             accountToUpdate.setGender(account.getGender());
+            accountToUpdate.setPayments(account.getPayments());
+            accountToUpdate.setUser(account.getUser());
 
             session.getTransaction().commit();
 

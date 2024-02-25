@@ -4,14 +4,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:psql_db.properties")
+@EnableTransactionManagement
+@EnableJpaRepositories(value = "ua.ithillel.app")
 public class HibernateConfig {
     private final Environment environment;
 
@@ -20,7 +26,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    public LocalSessionFactoryBean entityManagerFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("ua.ithillel.app");
@@ -49,6 +55,13 @@ public class HibernateConfig {
             properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
 
         return properties;
+    }
+
+    @Bean(name = "transactionManager")
+    public HibernateTransactionManager getTransactionManager(){
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(entityManagerFactory().getObject());
+        return transactionManager;
     }
 
 }

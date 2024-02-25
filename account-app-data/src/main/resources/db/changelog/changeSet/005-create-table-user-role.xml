@@ -6,7 +6,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="7" author="nazar">
+    <changeSet id="6" author="nazar">
         <createTable tableName="user_role">
             <column name="user_id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -16,7 +16,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="8" author="nazar">
+    <changeSet id="7" author="nazar">
         <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id"
                                  constraintName="fk_user_role_user_id"
                                  referencedTableName="user" referencedColumnNames="id"

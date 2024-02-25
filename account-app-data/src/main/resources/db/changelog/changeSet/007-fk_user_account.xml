@@ -6,14 +6,10 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-<changeSet id="3" author="nazar">
-    <createTable tableName="user">
-        <column name="id" type="BIGSERIAL">
-            <constraints primaryKey="true"/>
-        </column>
-        <column name="created_date" type="TIMESTAMP"/>
-        <column name="email" type="VARCHAR(255)"/>
-        <column name="password" type="VARCHAR(255)"/>
-    </createTable>
+<changeSet id="9" author="nazar">
+    <addForeignKeyConstraint baseTableName="account" baseColumnNames="user_id"
+                             constraintName="fk_user_account"
+                             referencedTableName="user"
+                             referencedColumnNames="id"/>
 </changeSet>
 </databaseChangeLog>

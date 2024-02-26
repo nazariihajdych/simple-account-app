@@ -21,7 +21,7 @@ public class Payment {
     private Long id;
     private Double amount;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @ManyToOne()
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 }

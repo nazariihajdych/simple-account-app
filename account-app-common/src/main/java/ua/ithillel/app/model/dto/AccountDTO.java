@@ -3,7 +3,6 @@ package ua.ithillel.app.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ua.ithillel.app.model.Payment;
 import ua.ithillel.app.model.enums.Gender;
 
 import java.util.Date;

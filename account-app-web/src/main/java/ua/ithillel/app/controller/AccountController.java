@@ -40,7 +40,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.deleteAccount(id));
+    public void deleteAccount(@PathVariable Long id) {
+        accountService.deleteAccount(id);
     }
 }

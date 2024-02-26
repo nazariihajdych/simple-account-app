@@ -1,55 +1,54 @@
 package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
+import ua.ithillel.app.exeption.AccountNotFoundException;
 import ua.ithillel.app.exeption.PaymentNotFoundException;
+import ua.ithillel.app.model.Account;
 import ua.ithillel.app.model.Payment;
 import ua.ithillel.app.model.dto.AccountDTO;
 import ua.ithillel.app.model.dto.PaymentDTO;
-import ua.ithillel.app.model.dto.UserDTO;
-import ua.ithillel.app.model.mapper.AccountMapper;
 import ua.ithillel.app.model.mapper.PaymentMapper;
+import ua.ithillel.app.repo.AccountRepo;
 import ua.ithillel.app.repo.PaymentRepo;
 
-import java.util.Collections;
 import java.util.List;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepo paymentRepo;
     private final PaymentMapper paymentMapper;
-    private final AccountService accountService;
+    private final AccountRepo accountRepo;
     private final UserService userService;
-    private final AccountMapper accountMapper;
 
-    public PaymentServiceImpl(PaymentRepo paymentRepo, PaymentMapper paymentMapper, AccountService accountService, UserService userService, AccountMapper accountMapper) {
+    public PaymentServiceImpl(PaymentRepo paymentRepo, PaymentMapper paymentMapper, AccountRepo accountRepo, UserService userService) {
         this.paymentRepo = paymentRepo;
         this.paymentMapper = paymentMapper;
-        this.accountService = accountService;
+        this.accountRepo = accountRepo;
         this.userService = userService;
-        this.accountMapper = accountMapper;
     }
 
     @Override
     public PaymentDTO addPayment(PaymentDTO paymentDTO) {
         Payment payment = paymentMapper.paymentDTOToPayment(paymentDTO);
+        Account account = getAccountOrThrow(paymentDTO.getAccountId());
+        payment.setAccount(account);
         Payment saved = paymentRepo.save(payment);
         return paymentMapper.paymentToPaymentDTO(saved);
     }
 
     @Override
     public PaymentDTO getPaymentById(Long id) {
-        Payment payment = paymentRepo.findById(id)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment with id = " + id + "not found"));
+        Payment payment = getPaymentOrThrow(id);
         return paymentMapper.paymentToPaymentDTO(payment);
     }
 
     @Override
     public List<PaymentDTO> getAllPaymentsByAccountId(Long accountId) {
-        AccountDTO accountById = accountService.getAccountById(accountId);
-        return accountById.getPayments();
+        Account account = getAccountOrThrow(accountId);
+        return account.getPayments().stream()
+                .map(paymentMapper::paymentToPaymentDTO)
+                .toList();
     }
 
     @Override
@@ -62,16 +61,28 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDTO editPayment(Long id, PaymentDTO paymentDTO) {
-        Payment payment = paymentRepo.findById(id)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment with id = " + id + "not found"));
+        Payment payment = getPaymentOrThrow(id);
         payment.setAmount(paymentDTO.getAmount());
-        payment.setAccount(accountMapper.accountDTOToAccount(accountService.getAccountById(paymentDTO.getAccount_id())));
+        payment.setAccount(getAccountOrThrow(paymentDTO.getAccountId()));
         paymentRepo.save(payment);
         return paymentMapper.paymentToPaymentDTO(payment);
     }
 
     @Override
     public void deletePayment(Long id) {
-        paymentRepo.deleteById(id);
+        Payment payment = getPaymentOrThrow(id);
+        Account account = getAccountOrThrow(payment.getAccount().getId());
+        account.getPayments().removeIf(payment1 -> payment1.getId().equals(id));
+        accountRepo.save(account);
+    }
+
+    private Account getAccountOrThrow(Long accountId) {
+        return accountRepo.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + accountId + "not found"));
+    }
+
+    private Payment getPaymentOrThrow(Long id) {
+        return paymentRepo.findById(id)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment with id = " + id + "not found"));
     }
 }

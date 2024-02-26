@@ -2,7 +2,6 @@ package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
 import ua.ithillel.app.model.dto.PaymentDTO;
-import ua.ithillel.app.repo.PaymentRepo;
 
 import java.util.List;
 

@@ -1,15 +1,7 @@
 package ua.ithillel.app.repo;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ua.ithillel.app.model.Account;
 
-import java.util.List;
-
-public interface AccountRepo {
-    Account addAccount(Account account);
-    List<Account> getAllAccounts();
-    Account getAccountById(Long id);
-
-    Account deleteAccount(Long id);
-
-    Account editAccount(Long id, Account account);
+public interface AccountRepo extends JpaRepository<Account, Long> {
 }

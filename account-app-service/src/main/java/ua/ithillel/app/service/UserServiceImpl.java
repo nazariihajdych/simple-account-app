@@ -47,11 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public UserDTO deleteUser(Long id) {
         User user = findUserOrThrow(id);
         user.setRoles(null);
         userRepo.save(user);
         userRepo.deleteById(id);
+
+        return userMapper.userToUserDTO(user);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setUserRole(Long userId, Long roleId) {
+    public UserDTO setUserRole(Long userId, Long roleId) {
         User user = findUserOrThrow(userId);
 
         Role role = roleRepo.findById(roleId)
@@ -71,15 +73,16 @@ public class UserServiceImpl implements UserService {
 
         if (!user.getRoles().contains(role)) {
             user.getRoles().add(role);
-            userRepo.save(user);
+            return userMapper.userToUserDTO(userRepo.save(user));
         }
+        return userMapper.userToUserDTO(user);
     }
 
     @Override
-    public void removeUserRole(Long userId, Long roleId) {
+    public UserDTO removeUserRole(Long userId, Long roleId) {
         User user = findUserOrThrow(userId);
         user.getRoles().removeIf(role -> role.getId().equals(roleId));
-        userRepo.save(user);
+        return userMapper.userToUserDTO(userRepo.save(user));
     }
 
     private User findUserOrThrow(Long userId) {

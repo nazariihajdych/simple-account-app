@@ -40,19 +40,19 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void removeUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<UserDTO> removeUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @PutMapping("/role")
-    public void setRole(@RequestParam(name = "userId") Long userId,
+    public ResponseEntity<UserDTO> setRole(@RequestParam(name = "userId") Long userId,
                         @RequestParam(name = "roleId") Long roleId) {
-        userService.setUserRole(userId, roleId);
+        return ResponseEntity.ok(userService.setUserRole(userId, roleId));
     }
 
     @DeleteMapping("/role")
-    public void removeRole(@RequestParam(name = "userId") Long userId,
+    public ResponseEntity<UserDTO> removeRole(@RequestParam(name = "userId") Long userId,
                            @RequestParam(name = "roleId") Long roleId) {
-        userService.removeUserRole(userId, roleId);
+        return ResponseEntity.ok(userService.removeUserRole(userId, roleId));
     }
 }

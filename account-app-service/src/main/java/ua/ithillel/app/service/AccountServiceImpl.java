@@ -11,7 +11,7 @@ import ua.ithillel.app.model.mapper.PaymentMapper;
 import ua.ithillel.app.repo.AccountRepo;
 import ua.ithillel.app.repo.UserRepo;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -52,12 +52,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount(Long id) {
+    public AccountDTO deleteAccount(Long id) {
         Account accountById = getAccountOrThrow(id);
 
         User user = getUserOrThrow(accountById.getUser().getId());
         user.getAccounts().removeIf(account -> account.getId().equals(id));
         userRepo.save(user);
+        return accountMapper.accountToAccountDTO(accountById);
     }
 
     @Override
@@ -68,9 +69,11 @@ public class AccountServiceImpl implements AccountService {
         account.setDateOfBirth(accountDTO.getDateOfBirth());
         account.setCountry(accountDTO.getCountry());
         account.setGender(accountDTO.getGender());
-        account.setPayments(accountDTO.getPayments().stream()
-                .map(paymentMapper::paymentDTOToPayment)
-                .toList());
+        if (accountDTO.getPayments() != null) {
+            account.setPayments(accountDTO.getPayments().stream()
+                    .map(paymentMapper::paymentDTOToPayment)
+                    .toList());
+        }
 
         User user = getUserOrThrow(accountDTO.getUser_id());
         account.setUser(user);

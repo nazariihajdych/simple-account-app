@@ -69,11 +69,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePayment(Long id) {
+    public PaymentDTO deletePayment(Long id) {
         Payment payment = getPaymentOrThrow(id);
         Account account = getAccountOrThrow(payment.getAccount().getId());
         account.getPayments().removeIf(payment1 -> payment1.getId().equals(id));
         accountRepo.save(account);
+        return paymentMapper.paymentToPaymentDTO(payment);
     }
 
     private Account getAccountOrThrow(Long accountId) {

@@ -1,6 +1,5 @@
 package ua.ithillel.app.service;
 
-import ua.ithillel.app.model.User;
 import ua.ithillel.app.model.dto.UserDTO;
 
 import java.util.List;

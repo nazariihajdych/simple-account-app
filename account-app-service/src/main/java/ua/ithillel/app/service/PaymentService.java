@@ -1,11 +1,9 @@
 package ua.ithillel.app.service;
 
-import org.springframework.stereotype.Service;
 import ua.ithillel.app.model.dto.PaymentDTO;
 
 import java.util.List;
 
-@Service
 public interface PaymentService {
     PaymentDTO addPayment(PaymentDTO paymentDTO);
 

@@ -8,4 +8,6 @@
     <include file="db/changelog/changeSet/003-create-user-table.xml"/>
     <include file="db/changelog/changeSet/004-create-payment-table-relation-to-account.xml"/>
     <include file="db/changelog/changeSet/005-create-table-user-role.xml"/>
+    <include file="db/changelog/changeSet/006-date-time-now-default-user-creation.xml"/>
+    <include file="db/changelog/changeSet/007-fk_user_account.xml"/>
 </databaseChangeLog>

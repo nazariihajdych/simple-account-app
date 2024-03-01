@@ -1,7 +1,12 @@
 package ua.ithillel.app.model;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +21,7 @@ public class Payment {
     private Long id;
     private Double amount;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @ManyToOne()
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 }

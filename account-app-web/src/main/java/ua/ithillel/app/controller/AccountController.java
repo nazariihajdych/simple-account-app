@@ -3,11 +3,10 @@ package ua.ithillel.app.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.ithillel.app.model.Account;
+import ua.ithillel.app.model.dto.AccountDTO;
 import ua.ithillel.app.service.AccountService;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/account")
@@ -20,49 +19,28 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
-        Account accountById = accountService.getAccountById(id);
-        return ResponseEntity.ok(accountById);
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        return ResponseEntity.ok(accountService.getAllAccounts());
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<AccountDTO>> getAllAccountsByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getAllAccountsByUserId(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Account> addAccount(@RequestBody Account account) {
-        return new ResponseEntity<>(accountService.addAccount(account), HttpStatus.CREATED);
+    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
+        return new ResponseEntity<>(accountService.addAccount(accountDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Account> editAccount(@PathVariable Long id,
-                                               @RequestBody Account account) {
-        return ResponseEntity.ok(accountService.editAccount(id, account));
+    public ResponseEntity<AccountDTO> editAccount(@PathVariable Long id,
+                                               @RequestBody AccountDTO accountDTO) {
+        return ResponseEntity.ok(accountService.editAccount(id, accountDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Account> deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
         return ResponseEntity.ok(accountService.deleteAccount(id));
-    }
-
-    @GetMapping("/balance/{moreThen}")
-    public ResponseEntity<List<Account>> balanceMoreThen(@PathVariable Double moreThen) {
-        List<Account> accountList = accountService.balanceMoreThen(moreThen);
-        if (accountList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.ok(accountList);
-        }
-    }
-
-    @GetMapping("/countries")
-    public ResponseEntity<Set<String>> accountsCountries() {
-        return ResponseEntity.ok(accountService.accountsCountries());
-    }
-
-    @GetMapping("/countries/average")
-    public ResponseEntity<Double> averageBalanceByCountries(@RequestParam String country) {
-        return ResponseEntity.ok(accountService.averageBalanceByCountry(country));
     }
 }

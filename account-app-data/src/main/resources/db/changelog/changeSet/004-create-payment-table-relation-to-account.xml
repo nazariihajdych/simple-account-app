@@ -6,7 +6,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="5" author="nazar">
+    <changeSet id="4" author="nazar">
         <createTable tableName="payment">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -15,7 +15,7 @@
             <column name="amount" type="float(53)"/>
         </createTable>
     </changeSet>
-    <changeSet id="6" author="nazar">
+    <changeSet id="5" author="nazar">
         <addForeignKeyConstraint baseTableName="payment" baseColumnNames="account_id"
                                  constraintName="fk_payment_account_id"
                                  referencedTableName="account" referencedColumnNames="id"

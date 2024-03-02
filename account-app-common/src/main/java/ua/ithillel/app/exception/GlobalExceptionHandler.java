@@ -1,4 +1,4 @@
-package ua.ithillel.app.exeption;
+package ua.ithillel.app.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

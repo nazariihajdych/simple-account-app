@@ -58,4 +58,7 @@ public class WebConfigTest {
         transactionManager.setSessionFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
+
+    @Bean
+    public void liquibase() {}
 }

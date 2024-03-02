@@ -1,8 +1,8 @@
 package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
-import ua.ithillel.app.exeption.AccountNotFoundException;
-import ua.ithillel.app.exeption.UserNotFoundException;
+import ua.ithillel.app.exception.AccountNotFoundException;
+import ua.ithillel.app.exception.UserNotFoundException;
 import ua.ithillel.app.model.Account;
 import ua.ithillel.app.model.User;
 import ua.ithillel.app.model.dto.AccountDTO;
@@ -83,11 +83,11 @@ public class AccountServiceImpl implements AccountService {
 
     private User getUserOrThrow(Long id) {
         return userRepo.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id = " + id + "not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with id = " + id + " not found"));
     }
 
     private Account getAccountOrThrow(Long id) {
         return accountRepo.findById(id)
-                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + id + "not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + id + " not found"));
     }
 }

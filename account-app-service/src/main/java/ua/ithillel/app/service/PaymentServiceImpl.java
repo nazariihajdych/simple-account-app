@@ -1,8 +1,8 @@
 package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
-import ua.ithillel.app.exeption.AccountNotFoundException;
-import ua.ithillel.app.exeption.PaymentNotFoundException;
+import ua.ithillel.app.exception.AccountNotFoundException;
+import ua.ithillel.app.exception.PaymentNotFoundException;
 import ua.ithillel.app.model.Account;
 import ua.ithillel.app.model.Payment;
 import ua.ithillel.app.model.dto.AccountDTO;

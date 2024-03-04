@@ -1,4 +1,4 @@
-package ua.ithillel.app.exeption;
+package ua.ithillel.app.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

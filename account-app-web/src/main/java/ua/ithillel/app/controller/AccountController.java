@@ -1,5 +1,6 @@
 package ua.ithillel.app.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +30,13 @@ public class AccountController {
     }
 
     @PostMapping()
-    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> addAccount(@Valid @RequestBody AccountDTO accountDTO) {
         return new ResponseEntity<>(accountService.addAccount(accountDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AccountDTO> editAccount(@PathVariable Long id,
-                                               @RequestBody AccountDTO accountDTO) {
+                                                  @Valid @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok(accountService.editAccount(id, accountDTO));
     }
 

@@ -1,8 +1,8 @@
 package ua.ithillel.app.service;
 
 import org.springframework.stereotype.Service;
-import ua.ithillel.app.exeption.RoleNotFoundException;
-import ua.ithillel.app.exeption.UserNotFoundException;
+import ua.ithillel.app.exception.RoleNotFoundException;
+import ua.ithillel.app.exception.UserNotFoundException;
 import ua.ithillel.app.model.Role;
 import ua.ithillel.app.model.User;
 import ua.ithillel.app.model.dto.UserDTO;

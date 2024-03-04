@@ -1,5 +1,6 @@
 package ua.ithillel.app.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<PaymentDTO> addPayment(@RequestBody PaymentDTO paymentDTO) {
+    public ResponseEntity<PaymentDTO> addPayment(@Valid @RequestBody PaymentDTO paymentDTO) {
         return new ResponseEntity<>(paymentService.addPayment(paymentDTO), HttpStatus.CREATED);
     }
 
@@ -40,7 +41,7 @@ public class PaymentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PaymentDTO> editPayment(@PathVariable Long id,
-                                                  @RequestBody PaymentDTO paymentDTO) {
+                                                  @Valid @RequestBody PaymentDTO paymentDTO) {
         return ResponseEntity.ok(paymentService.editPayment(id, paymentDTO));
     }
 

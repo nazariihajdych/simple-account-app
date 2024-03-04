@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Entity(name = "account")
-@Table(name = "account", schema = "manager")
+@Table(name = "account")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +34,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

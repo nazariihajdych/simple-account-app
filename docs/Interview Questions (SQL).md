@@ -1,5 +1,5 @@
 ## Difference between inner/outer, left/right/full join?
-![https://github.com/nazariihajdych/hillel-javaee-homeworks/pull/11/commits/c592d345cb980abd95904bb09234178390aa46d0#diff-74e5739514c5824bd2e7e07ca52b44377095fff9430257937a1d17f1e64b99c6 |600]]
+![docs/join_diference_sql.png|600]]
 ## When you need to use EXPLAIN? And for what purpose?
 EXPLAIN keyword provides a description of how the SQL queries are executed by the databases. These descriptions include the optimizer logs, how tables are joined and in what order, etc. EXPLAIN also indicates the fact that a user who doesn’t have any access to a particular database will not be provided details about how it executes the queries. So it maintains security as well.
 ## What is CONSTRAIN and how to add it?

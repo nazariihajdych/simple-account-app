@@ -5,10 +5,12 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ua.ithillel.app.service.UserDetailsImpl;
 
 import java.util.Date;
 
+@Component
 public class JwtUtil {
     public static final long JWT_TOKEN_VALIDITY = 24 * 1000 * 60 * 60;
 

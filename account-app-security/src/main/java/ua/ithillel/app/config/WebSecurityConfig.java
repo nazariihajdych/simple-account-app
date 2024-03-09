@@ -1,6 +1,5 @@
 package ua.ithillel.app.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,19 +21,26 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private JwtFilter jwtFilter;
+
+    private final UserRepo userRepo;
+
+    private final JwtFilter jwtFilter;
+
+    public WebSecurityConfig(UserRepo userRepo, JwtFilter jwtFilter) {
+        this.userRepo = userRepo;
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic().disable()
                 .sessionManagement(conf -> conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(reqs -> reqs
-                        .requestMatchers(antMatcher("/*")).hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(antMatcher("/register"), antMatcher("/login")).permitAll()
+                        .requestMatchers(antMatcher("/api/register"), antMatcher("/api/login")).permitAll()
+                        .requestMatchers(antMatcher("/api/account/**"), antMatcher("/api/payment/**")).hasAuthority("USER")
+                        .requestMatchers(antMatcher("/api/**")).hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

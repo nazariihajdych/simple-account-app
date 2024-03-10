@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ua.ithillel.app.service.AppUserDetailsService;
+import ua.ithillel.app.model.AppUserDetailsService;
 import ua.ithillel.app.util.JwtUtil;
 
 import java.io.IOException;

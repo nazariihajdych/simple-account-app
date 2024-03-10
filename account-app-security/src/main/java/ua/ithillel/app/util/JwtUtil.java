@@ -7,7 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import ua.ithillel.app.service.UserDetailsImpl;
+import ua.ithillel.app.model.UserDetailsImpl;
 
 import java.util.Date;
 

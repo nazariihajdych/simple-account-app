@@ -40,6 +40,7 @@
         <slf4j.version>2.0.9</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
         <aspectj.version>1.9.20.1</aspectj.version>
+        <glassfish.version>4.0.2</glassfish.version>
     </properties>
 
     <dependencyManagement>
@@ -142,7 +143,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
-                <version>4.0.2</version>
+                <version>${glassfish.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -173,19 +174,24 @@
                 <scope>runtime</scope>
             </dependency>
             <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
+                <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -196,13 +202,11 @@
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectj.version}</version>
-                <!--                <scope>runtime</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectj.version}</version>
-                <!--                <scope>runtime</scope>-->
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,10 +1,9 @@
-package ua.ithillel.app.service;
+package ua.ithillel.app.model;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.ithillel.app.model.User;
 import ua.ithillel.app.repo.UserRepo;
 
 @Service

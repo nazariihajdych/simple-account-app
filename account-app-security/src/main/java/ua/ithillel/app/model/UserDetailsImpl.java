@@ -1,4 +1,4 @@
-package ua.ithillel.app.service;
+package ua.ithillel.app.model;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

@@ -6,10 +6,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import ua.ithillel.app.service.UserDetailsImpl;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 @PropertySource("classpath:security.properties")
@@ -29,6 +32,14 @@ public class JwtUtil {
 
     public String getUsernameFromToken(String token) {
         return getClaimsFromToken(token).getSubject();
+    }
+
+    public List<SimpleGrantedAuthority> getRolesFromToken(String token){
+        List<LinkedHashMap<String, String>> roles = getClaimsFromToken(token).get("roles", List.class);
+        return roles.stream()
+                .flatMap(map -> map.values().stream())
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     public Long getUserIdFromToken(String token) {

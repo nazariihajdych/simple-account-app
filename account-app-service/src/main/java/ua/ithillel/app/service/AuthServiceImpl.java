@@ -6,6 +6,7 @@ import ua.ithillel.app.exception.InconsistencyException;
 import ua.ithillel.app.exception.UserNotFoundException;
 import ua.ithillel.app.model.Role;
 import ua.ithillel.app.model.User;
+import ua.ithillel.app.model.UserDetailsImpl;
 import ua.ithillel.app.model.dto.AuthDTO;
 import ua.ithillel.app.model.dto.LoginRegisterDTO;
 import ua.ithillel.app.model.dto.UserDTO;

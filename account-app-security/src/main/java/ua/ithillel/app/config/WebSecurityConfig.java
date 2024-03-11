@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.ithillel.app.filter.JwtFilter;
 import ua.ithillel.app.repo.UserRepo;
-import ua.ithillel.app.service.AppUserDetailsService;
+import ua.ithillel.app.model.AppUserDetailsService;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 

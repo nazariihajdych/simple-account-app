@@ -45,6 +45,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
     }
 
+    @ExceptionHandler(InconsistencyException.class)
+    public ResponseEntity<ErrorDTO> handleInconsistencyException(InconsistencyException e){
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setMessage(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleAccountNotFoundException(Exception e){
         ErrorDTO errorDTO = new ErrorDTO();

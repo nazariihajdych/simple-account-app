@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ua.ithillel.app.model.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
+    User findUserByEmail(String email);
 }

@@ -13,6 +13,7 @@
         <module>account-app-data</module>
         <module>account-app-service</module>
         <module>account-app-web</module>
+        <module>account-app-security</module>
         <module>annotation-beanpp_hw</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
@@ -34,6 +35,8 @@
         <spring-data.version>3.0.8</spring-data.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <spring-security.version>6.0.8</spring-security.version>
+        <jjwt.version>0.11.5</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -143,6 +146,33 @@
                 <artifactId>jakarta.el</artifactId>
                 <version>4.0.2</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -37,9 +37,9 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(conf -> conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(reqs -> reqs
-                        .requestMatchers(antMatcher("/api/register"), antMatcher("/api/login")).permitAll()
-                        .requestMatchers(antMatcher("/api/account/**"), antMatcher("/api/payment/**")).hasAuthority("USER")
-                        .requestMatchers(antMatcher("/api/**")).hasAuthority("ADMIN")
+                        .requestMatchers(antMatcher("/register"), antMatcher("/login")).permitAll()
+                        .requestMatchers(antMatcher("/account/**"), antMatcher("/payment/**")).hasAuthority("USER")
+                        .requestMatchers(antMatcher("/**")).hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

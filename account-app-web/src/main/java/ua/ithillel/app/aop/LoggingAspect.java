@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Aspect
-@Slf4j
 @Component
+@Slf4j
 public class LoggingAspect {
     @Pointcut("execution(* ua.ithillel.app.service..*.*(..))")
     private void serviceMethods(){}
@@ -25,11 +25,11 @@ public class LoggingAspect {
 
     @Around("serviceMethods()")
     public Object aroundServiceMethod(ProceedingJoinPoint pjp) throws Throwable {
-        log.debug("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
+        log.info("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
 
         Object returnValue = pjp.proceed();
 
-        log.debug("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
+        log.info("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
 
         return returnValue;
     }
@@ -41,11 +41,11 @@ public class LoggingAspect {
 
     @Around("repoMethods()")
     public Object aroundRepoMethod(ProceedingJoinPoint pjp) throws Throwable {
-        log.debug("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
+        log.info("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
 
         Object returnValue = pjp.proceed();
 
-        log.debug("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
+        log.info("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
 
         return returnValue;
     }
@@ -57,11 +57,11 @@ public class LoggingAspect {
 
     @Around("mapperMethods()")
     public Object aroundMapperMethod(ProceedingJoinPoint pjp) throws Throwable {
-        log.debug("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
+        log.info("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
 
         Object returnValue = pjp.proceed();
 
-        log.debug("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
+        log.info("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
 
         return returnValue;
     }

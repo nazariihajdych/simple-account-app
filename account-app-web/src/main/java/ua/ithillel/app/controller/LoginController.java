@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.ithillel.app.model.dto.AuthDTO;
 import ua.ithillel.app.model.dto.LoginRegisterDTO;
 import ua.ithillel.app.service.AuthService;
+import ua.loggable.starter.aspect.Loggable;
 
 @RestController
 @RequestMapping("/login")
@@ -19,6 +20,7 @@ public class LoginController {
         this.authService = authService;
     }
 
+    @Loggable
     @PostMapping
     public ResponseEntity<AuthDTO> login(@RequestBody LoginRegisterDTO loginRegisterDTO) throws UsernameNotFoundException {
         AuthDTO authenticate = authService.authenticate(loginRegisterDTO);

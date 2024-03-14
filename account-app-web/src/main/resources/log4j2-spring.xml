@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="ua.ithillel.app.service" level="debug" />
+        <Logger name="ua.ithillel.app.service.*" level="info" />
         <Root level="info">
             <AppenderRef ref="STDOUT"/>
         </Root>

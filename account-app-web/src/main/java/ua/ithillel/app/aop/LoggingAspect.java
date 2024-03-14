@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Aspect
-@Slf4j
 @Component
+@Slf4j
 public class LoggingAspect {
     @Pointcut("execution(* ua.ithillel.app.service..*.*(..))")
     private void serviceMethods(){}
@@ -26,11 +26,11 @@ public class LoggingAspect {
     @Around("serviceMethods()")
     public Object aroundServiceMethod(ProceedingJoinPoint pjp) throws Throwable {
         log.debug("Before executing {} with params {}", pjp.getSignature(), Arrays.toString(pjp.getArgs()));
-
+        System.out.println("from aspect");
         Object returnValue = pjp.proceed();
 
         log.debug("After executing {}, returned value: {}", pjp.getSignature(), returnValue);
-
+        System.out.println("after method");
         return returnValue;
     }
 

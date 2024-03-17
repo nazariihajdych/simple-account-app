@@ -52,8 +52,9 @@ public class AuthServiceImpl implements AuthService {
             authDTO.setToken(token);
 
             return authDTO;
+        } else {
+            throw new InconsistencyException("Wrong password!");
         }
-        return null;
     }
 
     @Override

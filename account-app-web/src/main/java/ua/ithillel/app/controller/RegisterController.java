@@ -1,5 +1,6 @@
 package ua.ithillel.app.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class RegisterController {
     @PostMapping
     public ResponseEntity<UserDTO> register(@RequestBody LoginRegisterDTO loginRegisterDTO) throws InconsistencyException {
         UserDTO userDTO = authService.register(loginRegisterDTO);
-        return ResponseEntity.ok(userDTO);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
 }

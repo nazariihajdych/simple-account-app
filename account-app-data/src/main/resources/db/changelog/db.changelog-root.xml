@@ -10,4 +10,5 @@
     <include file="db/changelog/changeSet/005-create-table-user-role.xml"/>
     <include file="db/changelog/changeSet/006-date-time-now-default-user-creation.xml"/>
     <include file="db/changelog/changeSet/007-fk_user_account.xml"/>
+    <include file="db/changelog/changeSet/008-change-table-name-user-and-role.xml"/>
 </databaseChangeLog>

@@ -25,7 +25,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long id) {
+    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(paymentService.getPaymentById(id));
     }
 
@@ -40,13 +40,13 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDTO> editPayment(@PathVariable Long id,
+    public ResponseEntity<PaymentDTO> editPayment(@PathVariable("id") Long id,
                                                   @Valid @RequestBody PaymentDTO paymentDTO) {
         return ResponseEntity.ok(paymentService.editPayment(id, paymentDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PaymentDTO> deletePayment(@PathVariable Long id) {
+    public ResponseEntity<PaymentDTO> deletePayment(@PathVariable("id") Long id) {
         return ResponseEntity.ok(paymentService.deletePayment(id));
     }
 }

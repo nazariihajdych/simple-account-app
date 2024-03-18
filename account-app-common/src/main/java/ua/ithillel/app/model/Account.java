@@ -48,7 +48,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne() //fetch = FetchType.LAZY
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

@@ -20,12 +20,12 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id) {
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<AccountDTO>> getAllAccountsByUserId(@PathVariable Long id) {
+    public ResponseEntity<List<AccountDTO>> getAllAccountsByUserId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(accountService.getAllAccountsByUserId(id));
     }
 
@@ -35,13 +35,13 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDTO> editAccount(@PathVariable Long id,
+    public ResponseEntity<AccountDTO> editAccount(@PathVariable("id") Long id,
                                                   @Valid @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok(accountService.editAccount(id, accountDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable("id") Long id) {
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 }

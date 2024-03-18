@@ -64,8 +64,9 @@ class LoginControllerTest {
 
                 )
                 .andExpect(jsonPath("$.userDTO.email").value("otheruser@mail.com"))
-                .andExpect(jsonPath("$.token").isString())
-                .andExpect(result -> assertEquals(275, objectMapper.readValue(result.getResponse().getContentAsString(), AuthDTO.class).getToken().length()))
+                .andExpect(jsonPath("$.token").isNotEmpty())
+                .andExpect(result -> assertEquals(275,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), AuthDTO.class).getToken().length()))
                 .andReturn();
     }
 

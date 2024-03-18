@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.app.model.dto.AccountDTO;
-import ua.ithillel.app.model.dto.UserDTO;
 import ua.ithillel.app.service.AccountService;
 
 import java.util.List;

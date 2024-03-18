@@ -1,7 +1,6 @@
 package ua.ithillel.app.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.ithillel.app.model.dto.AuthDTO;
 import ua.ithillel.app.model.dto.LoginRegisterDTO;
-import ua.ithillel.app.model.dto.UserDTO;
 import ua.ithillel.app.service.AuthService;
 import ua.loggable.starter.aspect.Loggable;
 

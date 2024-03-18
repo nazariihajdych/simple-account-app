@@ -22,6 +22,20 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
     private final UserRepo userRepo;
 
     private final JwtFilter jwtFilter;
@@ -37,6 +51,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(conf -> conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(reqs -> reqs
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(antMatcher("/register"), antMatcher("/login")).permitAll()
                         .requestMatchers(antMatcher("/account/**"), antMatcher("/payment/**")).hasAuthority("USER")
                         .requestMatchers(antMatcher("/**")).hasAuthority("ADMIN")

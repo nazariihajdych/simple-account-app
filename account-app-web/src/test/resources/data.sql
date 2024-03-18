@@ -5,7 +5,8 @@ VALUES
 
 INSERT INTO t_user (email, password)
 VALUES
-    ('otheruser@mail.com','$2a$10$85skklE47.X97E3W9.UGoOQZ9T21i6ENL3yhjV.wT85X.2hBXV/uu');
+    ('otheruser@mail.com','$2a$10$85skklE47.X97E3W9.UGoOQZ9T21i6ENL3yhjV.wT85X.2hBXV/uu'),
+    ('nazar@mail.com','$2a$10$85skklE47.X97E3W9.UGoOQZ9T21i6ENL3yhjV.wT85X.2hBXV/uu');
 
 INSERT INTO user_role(user_id, role_id)
 VALUES

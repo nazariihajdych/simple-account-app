@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User user = findUserOrThrow(userId);
 
         Role role = roleRepo.findById(roleId)
-                .orElseThrow(() -> new RoleNotFoundException("Role with id = " + roleId + "not found"));
+                .orElseThrow(() -> new RoleNotFoundException("Role with id = " + roleId + " not found"));
 
         if (!user.getRoles().contains(role)) {
             user.getRoles().add(role);
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     private User findUserOrThrow(Long userId) {
         return userRepo.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with id = " + userId + "not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found"));
 
     }
 }

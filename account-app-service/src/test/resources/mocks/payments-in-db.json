@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "amount": 1774.5,
+    "accountId": 1
+  },
+  {
+    "id": 2,
+    "amount": 1234.5,
+    "accountId": 3
+  }
+]

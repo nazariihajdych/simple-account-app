@@ -1,8 +1,3 @@
-INSERT INTO t_role (role_name)
-VALUES
-    ('USER'),
-    ('ADMIN');
-
 INSERT INTO t_user (email, password)
 VALUES
     ('otheruser@mail.com','$2a$10$85skklE47.X97E3W9.UGoOQZ9T21i6ENL3yhjV.wT85X.2hBXV/uu'),

@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"users"})
+@Table(name = "t_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

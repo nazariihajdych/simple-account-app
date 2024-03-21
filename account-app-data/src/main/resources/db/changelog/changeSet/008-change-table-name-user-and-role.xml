@@ -1,0 +1,19 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet  author="10"  id="nazar">
+        <renameTable  newTableName="t_user"
+                      oldTableName="user"
+                      />
+    </changeSet>
+    <changeSet  author="11"  id="nazar">
+        <renameTable  newTableName="t_role"
+                      oldTableName="role"
+        />
+    </changeSet>
+</databaseChangeLog>

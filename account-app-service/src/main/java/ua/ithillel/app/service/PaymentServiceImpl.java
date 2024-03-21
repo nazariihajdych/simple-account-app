@@ -79,11 +79,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     private Account getAccountOrThrow(Long accountId) {
         return accountRepo.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + accountId + "not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account with id = " + accountId + " not found"));
     }
 
     private Payment getPaymentOrThrow(Long id) {
         return paymentRepo.findById(id)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment with id = " + id + "not found"));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment with id = " + id + " not found"));
     }
 }

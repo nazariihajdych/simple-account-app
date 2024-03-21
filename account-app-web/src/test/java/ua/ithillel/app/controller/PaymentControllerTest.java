@@ -2,8 +2,8 @@ package ua.ithillel.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +15,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import ua.ithillel.app.exception.AccountNotFoundException;
 import ua.ithillel.app.exception.GlobalExceptionHandler;
-import ua.ithillel.app.model.dto.AccountDTO;
+import ua.ithillel.app.exception.PaymentNotFoundException;
 import ua.ithillel.app.model.dto.AuthDTO;
 import ua.ithillel.app.model.dto.LoginRegisterDTO;
-import ua.ithillel.app.model.enums.Gender;
-import ua.ithillel.app.service.AccountService;
+import ua.ithillel.app.model.dto.PaymentDTO;
 import ua.ithillel.app.service.AuthService;
+import ua.ithillel.app.service.PaymentService;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,22 +39,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AccountControllerTest {
+class PaymentControllerTest {
     MockMvc mockMvc;
     String token;
 
     @Autowired
-    AccountService accountService;
-
-    @Autowired
-    AuthService authService;
+    PaymentService paymentService;
 
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    AuthService authService;
+
+    Double dbPaymentAmount = 123.5;
+    Long dbPaymentAccountId = 1L;
+
     @BeforeEach
     void setUp() throws Exception {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new AccountController(accountService), new LoginController(authService))
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new PaymentController(paymentService), new LoginController(authService))
                 .setControllerAdvice(new GlobalExceptionHandler()).build();
 
         String email = "otheruser@mail.com";
@@ -81,61 +82,46 @@ class AccountControllerTest {
 
     @Test
     @Order(1)
-    void addAccount_successful() throws Exception {
+    void addPayment_successful() throws Exception {
 
-        AccountDTO fakeAccountDTO = new AccountDTO();
-        fakeAccountDTO.setFirstName("Vasil");
-        fakeAccountDTO.setLastName("Variman");
-        fakeAccountDTO.setDateOfBirth(new SimpleDateFormat("ddMMyyyy").parse("01011999"));
-        fakeAccountDTO.setCountry("Ukraine");
-        fakeAccountDTO.setBalance((double) 200);
-        fakeAccountDTO.setGender(Gender.MALE);
-        fakeAccountDTO.setUser_id(1L);
+        PaymentDTO fakePaymentDTO = new PaymentDTO();
+        fakePaymentDTO.setAmount(200.0);
+        fakePaymentDTO.setAccountId(1L);
 
-        String jFakeAccount = objectMapper.writeValueAsString(fakeAccountDTO);
+        String jFakePayment = objectMapper.writeValueAsString(fakePaymentDTO);
 
-        mockMvc.perform(post("/account")
+        mockMvc.perform(post("/payment")
                         .header("Authorization", "Bearer " + token)
                         .characterEncoding("utf-8")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jFakeAccount))
+                        .content(jFakePayment))
                 .andExpect(status().isCreated())
-                .andExpect(result -> assertInstanceOf(AccountDTO.class,
-                        objectMapper.readValue(result.getResponse().getContentAsString(), AccountDTO.class)
+                .andExpect(result -> assertInstanceOf(PaymentDTO.class,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), PaymentDTO.class)
                 ))
-                .andExpect(jsonPath("$.firstName").value("Vasil"))
-                .andExpect(jsonPath("$.balance").value(200.0))
+                .andExpect(jsonPath("$.amount").value(200.0))
                 .andReturn();
     }
 
     @Test
     @Order(2)
-    void addAccount_unsuccessful_passingNotValidFieldValues() throws Exception {
+    void addPayment_unsuccessful_passingNotValidFieldValues() throws Exception {
 
         HashMap<String, String> expectedValues = new HashMap<>();
-        expectedValues.put("firstName", "should be more then one character");
-        expectedValues.put("lastName", "should be more then one character");
-        expectedValues.put("balance", "should be positive number or zero");
-        expectedValues.put("dateOfBirth", "should be in past");
-        expectedValues.put("user_id", "should be positive number");
+        expectedValues.put("amount", "should be positive number or zero");
+        expectedValues.put("accountId", "should be positive number");
 
+        PaymentDTO fakePaymentDTO = new PaymentDTO();
+        fakePaymentDTO.setAmount(-200.0);
+        fakePaymentDTO.setAccountId(0L);
 
-        AccountDTO fakeAccountDTO = new AccountDTO();
-        fakeAccountDTO.setFirstName("");
-        fakeAccountDTO.setLastName("");
-        fakeAccountDTO.setDateOfBirth(new SimpleDateFormat("ddMMyyyy").parse("01012028"));
-        fakeAccountDTO.setCountry("Ukraine");
-        fakeAccountDTO.setBalance((double) -10);
-        fakeAccountDTO.setGender(Gender.MALE);
-        fakeAccountDTO.setUser_id(0L);
+        String jFakePayment = objectMapper.writeValueAsString(fakePaymentDTO);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonAccountDTO = objectMapper.writeValueAsString(fakeAccountDTO);
-
-        mockMvc.perform(post("/account")
+        mockMvc.perform(post("/payment")
+                        .header("Authorization", "Bearer " + token)
                         .characterEncoding("utf-8")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonAccountDTO))
+                        .content(jFakePayment))
                 .andExpect(status().is4xxClientError())
                 .andExpect(result -> assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals(expectedValues,
@@ -145,81 +131,92 @@ class AccountControllerTest {
 
     @Test
     @Order(3)
-    void getAccountById_successful() throws Exception {
-        mockMvc.perform(get("/account/{id}", 1L)
+    void getPaymentById_successful() throws Exception {
+        mockMvc.perform(get("/payment/{id}", 1L)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertInstanceOf(AccountDTO.class,
-                        objectMapper.readValue(result.getResponse().getContentAsString(), AccountDTO.class)
+                .andExpect(result -> assertInstanceOf(PaymentDTO.class,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), PaymentDTO.class)
                 ))
-                .andExpect(jsonPath("$.firstName").value("Nazar"))
-                .andExpect(jsonPath("$.user_id").value(1))
+                .andExpect(jsonPath("$.amount").value(dbPaymentAmount))
+                .andExpect(jsonPath("$.accountId").value(dbPaymentAccountId))
                 .andReturn();
     }
 
     @Test
     @Order(4)
-    void getAccountById_unsuccessful_NotExistingAccount() throws Exception {
-        mockMvc.perform(get("/account/999"))
+    void getPaymentById_unsuccessful_NotExistingPayment() throws Exception {
+        mockMvc.perform(get("/payment/{id}", 999L)
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNotFound())
-                .andExpect(result -> assertInstanceOf(AccountNotFoundException.class, result.getResolvedException()))
-                .andExpect(result -> assertEquals("Account with id = 999 not found",
+                .andExpect(result -> assertInstanceOf(PaymentNotFoundException.class, result.getResolvedException()))
+                .andExpect(result -> assertEquals("Payment with id = 999 not found",
                         result.getResolvedException().getMessage()))
                 .andReturn();
     }
 
     @Test
     @Order(5)
-    void getAllAccountsByUserId_successful() throws Exception {
-        mockMvc.perform(get("/account/user/{id}", 1L)
+    void getAllPaymentsByAccountId_successful() throws Exception {
+        mockMvc.perform(get("/payment/account")
+                        .param("accountId", "1")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(result -> assertInstanceOf(List.class,
                         objectMapper.readValue(result.getResponse().getContentAsString(), List.class)
                 ))
-                .andExpect(jsonPath("$.[0].firstName").value("Nazar"))
+                .andExpect(jsonPath("$.[0].amount").value(dbPaymentAmount))
                 .andReturn();
     }
 
     @Test
     @Order(6)
-    void editAccount_successful() throws Exception {
-
-        AccountDTO fakeAccountDTO = new AccountDTO();
-        fakeAccountDTO.setFirstName("Changed");
-        fakeAccountDTO.setLastName("Account");
-        fakeAccountDTO.setDateOfBirth(new SimpleDateFormat("ddMMyyyy").parse("01011999"));
-        fakeAccountDTO.setCountry("Ukraine");
-        fakeAccountDTO.setBalance((double) 200);
-        fakeAccountDTO.setGender(Gender.MALE);
-        fakeAccountDTO.setUser_id(1L);
-
-        String jFakeAccountDTO = objectMapper.writeValueAsString(fakeAccountDTO);
-
-        mockMvc.perform(put("/account/{id}", 1L)
-                        .header("Authorization", "Bearer " + token)
-                        .characterEncoding("utf-8")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jFakeAccountDTO))
+    void getAllPaymentsByUserId_successful() throws Exception {
+        mockMvc.perform(get("/payment/user")
+                        .param("userId", "1")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertInstanceOf(AccountDTO.class,
-                        objectMapper.readValue(result.getResponse().getContentAsString(), AccountDTO.class)
+                .andExpect(result -> assertInstanceOf(List.class,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), List.class)
                 ))
-                .andExpect(jsonPath("$.firstName").value("Changed"))
+                .andExpect(jsonPath("$.[0].amount").value(dbPaymentAmount))
                 .andReturn();
+
     }
 
     @Test
     @Order(7)
-    void deleteAccount_successful() throws Exception {
+    void editPayment_successful() throws Exception {
 
-        mockMvc.perform(delete("/account/{id}", 1L)
+        PaymentDTO fakePaymentDTO = new PaymentDTO();
+        fakePaymentDTO.setAmount(200.0);
+        fakePaymentDTO.setAccountId(1L);
+
+        String jFakePaymentDTO = objectMapper.writeValueAsString(fakePaymentDTO);
+
+        mockMvc.perform(put("/payment/{id}", 1L)
+                        .header("Authorization", "Bearer " + token)
+                        .characterEncoding("utf-8")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jFakePaymentDTO))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertInstanceOf(PaymentDTO.class,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), PaymentDTO.class)
+                ))
+                .andExpect(jsonPath("$.amount").value(200.0))
+                .andReturn();
+    }
+
+    @Test
+    @Order(8)
+    void deletePayment_successful() throws Exception {
+        mockMvc.perform(delete("/payment/{id}", 1L)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertInstanceOf(AccountDTO.class,
-                        objectMapper.readValue(result.getResponse().getContentAsString(), AccountDTO.class)
+                .andExpect(result -> assertInstanceOf(PaymentDTO.class,
+                        objectMapper.readValue(result.getResponse().getContentAsString(), PaymentDTO.class)
                 ))
-                .andExpect(jsonPath("$.firstName").value("Changed"))
+                .andExpect(jsonPath("$.amount").value(200.0))
                 .andReturn();
     }
 }

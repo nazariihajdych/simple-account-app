@@ -68,6 +68,7 @@ public class AccountServiceImpl implements AccountService {
         account.setLastName(accountDTO.getLastName());
         account.setDateOfBirth(accountDTO.getDateOfBirth());
         account.setCountry(accountDTO.getCountry());
+        account.setBalance(accountDTO.getBalance());
         account.setGender(accountDTO.getGender());
         if (accountDTO.getPayments() != null) {
             account.setPayments(accountDTO.getPayments().stream()

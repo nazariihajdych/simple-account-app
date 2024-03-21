@@ -1,5 +1,10 @@
 package ua.ithillel.app.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +26,15 @@ public class LoginController {
     }
 
     @Loggable
+    @Operation(summary = "Logging existing user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User successfully logged in",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthDTO.class)) }),
+    })
     @PostMapping
-    public ResponseEntity<AuthDTO> login(@RequestBody LoginRegisterDTO loginRegisterDTO) throws UsernameNotFoundException {
+    public ResponseEntity<AuthDTO> login(
+            @RequestBody LoginRegisterDTO loginRegisterDTO) throws UsernameNotFoundException {
         AuthDTO authenticate = authService.authenticate(loginRegisterDTO);
         return ResponseEntity.ok(authenticate);
     }
